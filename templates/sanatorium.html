@@ -1,0 +1,110 @@
+<!--страница подробной информации о санаторие  -->
+{% extends 'base.html' %}
+
+{% block title %}
+{{ sanatorium.name or '' }}
+{% endblock %}
+
+{% block body %}
+
+<div class="sanatorium-container">
+    <h1 class="sanatorium-title">{{ sanatorium.name or '' }}</h1>
+    <hr>
+    <br><br>
+    <div class="sanatorium-content">
+        <div class="sanatorium-sidebar">
+            <div class="sanatorium-content">
+        {% if sanatorium.photos %} <!--вывод фото санатория сайдером-->
+             <div class="photo-main-sanatory">
+            <div class="img-wrap">
+            {% for photo in sanatorium.photos %}
+                <img src="{{ url_for('static', filename=photo.file_path) }}"
+                     alt="Фото санатория {{ sanatorium.name }}"
+                     class="sanatorium-photo">
+            {% endfor %}
+            </div>
+            <button class="btn prev">‹</button>
+            <button class="btn next">›</button>
+        {% else %}
+        <div class="photo-main-sanatory">
+            <div class="img-wrap">
+            <img src="{{ url_for('static', filename='images/example.jpg') }}"
+                 alt="Заглушка"
+                 class="sanatorium-photo"> <!--фото по умолчанию-->
+                 </div>
+        {% endif %}
+         </div>
+            </div>
+            <div class="sidebar-info">
+                <p><b>Стоимость:</b> {{ sanatorium.price_per_night or '' }} ₽ / сутки</p>
+                <p><b>Рейтинг:</b> {{ sanatorium.average_review_score }}/10</p>
+                <p><b>Контакты:</b></p>
+                <p>☎️ +7 {{ sanatorium.phone or '' }}</p>
+                <p>🖥️ {{ sanatorium.website or '' }}</p>
+                <p>✉️ {{ sanatorium.email or '' }}</p>
+            </div>
+        </div>
+
+        <div class="sanatorium-main">
+
+            <div class="sanatorium-info-grid">
+                <p><b>Страна:</b> {{ sanatorium.country or '' }}</p>
+                <p><b>Регион:</b> {{ sanatorium.region or '' }}</p>
+                <p><b>Курорт:</b> {{ sanatorium.resort or '' }}</p>
+                <p><b>Специализация:</b> {{ sanatorium.specialization or '' }}</p>
+                <p><b>Оборудование:</b> {{ sanatorium.equipment or '' }}</p>
+                <p><b>Типы номеров:</b> {{ sanatorium.room_types or '' }}</p>
+                <p><b>Удобства:</b> {{ sanatorium.amenities or '' }}</p>
+                <p><b>Питание:</b> {{ sanatorium.food_type or '' }}</p>
+                <p><b>Доп. услуги:</b> {{ sanatorium.price_per_service or '' }}</p>
+                <p><b>До достопримечательностей:</b> {{ sanatorium.place_to_attractions }} км</p>
+            </div>
+
+            <div class="features">
+                {% if sanatorium.has_pool %}<p>🏊‍♂️ Есть бассейн</p>{% endif %}
+                {% if sanatorium.has_spa %}<p>💆 Есть спа</p>{% endif %}
+                {% if sanatorium.has_entertainment %}<p>🎭 Есть развлечения</p>{% endif %}
+            </div>
+        </div>
+    </div>
+<!--    <p class="description" style="white-space: pre-line"><b>Описание:</b> {{ sanatorium.description or 'Описание отсутствует.' | replace('\n', '<br>')| safe }}</p>-->
+  <section class="sanatorium-description">
+    <h2 class="description-title">Описание</h2>
+    <p class="description-text">
+      {{ sanatorium.description or 'Описание отсутствует.' | replace('\n', '<br>')| safe }}
+    </p>
+  </section>
+</div>
+
+<script>
+    // скрипт управления слайдером
+    document.querySelectorAll('.photo-main-sanatory').forEach(carousel => {
+        const imgWrap = carousel.querySelector('.img-wrap');
+        const imgs = carousel.querySelectorAll('.img-wrap img');
+        const prevBtn = carousel.querySelector('.prev');
+        const nextBtn = carousel.querySelector('.next');
+        let idx = 0;
+
+        function showImg() {
+            if (idx >= imgs.length) idx = 0;
+            if (idx < 0) idx = imgs.length - 1;
+            imgWrap.style.transform = `translateX(-${idx * 100}%)`;
+        }
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();  // Prevents triggering the sanatorium link
+            idx++;
+            showImg();
+        });
+
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();  // Prevents triggering the sanatorium link
+            idx--;
+            showImg();
+        });
+
+        showImg();
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,152 @@
+<!--страница профиля пользователя-->
+{% extends 'base.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style/forms.css') }}">
+{% endblock %}
+
+
+{% block title %}
+Профиль
+{% endblock %}
+
+
+{% block body %}
+{% if session.get('user_id') %}
+
+    <form action="{{ url_for('user.profile') }}" method="POST">
+        <h1>Основное</h1>
+        <hr>
+        <br>
+        <label for="purpose" class="label-group">Цель отдыха:</label><br>
+        <select name="purpose" id="purpose-select" required>
+            <option value="" {% if not user_preferences or not user_preferences.goal %}selected{% endif %}>-- Цель --</option>
+            <option value="лечение" {% if user_preferences and user_preferences.goal == 'лечение' %}selected{% endif %}>лечение конкретных заболеваний</option>
+            <option value="профилактика" {% if user_preferences and user_preferences.goal == 'профилактика' %}selected{% endif %}>профилактика</option>
+            <option value="отдых" {% if user_preferences and user_preferences.goal == 'отдых' %}selected{% endif %}>общий отдых</option>
+        </select>
+
+        <br>
+        <label for="type" class="label-group">Тип санатория</label><br>
+        <select name="type" id="type-select" required>
+            <option value="">-- Тип --</option>
+            <option value="профильный" {% if user_preferences.sanatorium_type == 'профильный' %}selected{% endif %}>профильный</option>
+            <option value="многопрофильный" {% if user_preferences.sanatorium_type == 'многопрофильный' %}selected{% endif %}>многопрофильный</option>
+        </select>
+
+        <br>
+        <br>
+        <label for="sum" class="label-group">Бюджет</label><br>
+        <input type="text" name="sum" value="{{ user_preferences.budget or '' }}" required style="width: 200px"> <span style="font-size: 20px">руб.</span>
+        <br><br>
+
+        <h1>Местоположение</h1>
+        <hr>
+        <br>
+
+        <!-- Местоположение -->
+        <label for="country"  class="label-group">Страна:</label><br>
+        <select name="country" id="country" required data-selected="{{ user_preferences.preferred_country }}"></select><br><br>
+    
+        <label for="region"  class="label-group">Регион:</label><br>
+        <select name="region" id="region" required data-selected="{{ user_preferences.preferred_region }}"></select><br><br>
+    
+        <label for="resort"  class="label-group">Курорт/город:</label><br>
+        <select name="resort" id="resort" required data-selected="{{ user_preferences.preferred_resort }}"></select><br><br>
+
+
+
+
+        <h1>Условия</h1>
+        <hr>
+        <p>
+            <span>Предпочитаемые услуги</span><br>
+            <p style="padding-left: 30px; margin-top: -10px">
+                <label><input type="checkbox" name="services[]" value="бассейн" {% if 'бассейн' in user_preferences.services %}checked{% endif %}> бассейн</label><br>
+                <label><input type="checkbox" name="services[]" value="спа" {% if 'спа' in user_preferences.services %}checked{% endif %}> спа-процедуры</label><br>
+                <label><input type="checkbox" name="services[]" value="медицина" {% if 'медицина' in user_preferences.services %}checked{% endif %}> лечебные процедуры</label><br>
+                <label><input type="checkbox" name="services[]" value="питание" {% if 'питание' in user_preferences.services %}checked{% endif %}> питание</label><br>
+            </p>
+        </p>
+
+        <p>
+            <span>Важность факторов</span><br>
+            <p style="padding-left: 30px; margin-top: -10px">
+                <label>🔹 Цена:
+                    <input type="range" name="фактор_стоимости" min="1" max="9" value="{{ factors.price }}">
+                </label><br>
+                <label>🔹 Расположение:
+                    <input type="range" name="фактор_места" min="1" max="9" value="{{ factors.location }}">
+                </label><br>
+                <label>🔹 Лечебная база:
+                    <input type="range" name="фактор_базы" min="1" max="9" value="{{ factors.treatment }}">
+                </label><br>
+                <label>🔹 Условия проживания:
+                    <input type="range" name="фактор_условий" min="1" max="9" value="{{ factors.living }}">
+                </label><br>
+                <label>🔹 Наличие развлечений:
+                    <input type="range" name="фактор_развлечений" min="1" max="9" value="{{ factors.entertainment }}">
+                </label><br>
+            </p>
+        </p>
+
+        <p>
+            <label>🔷 Необходима близость к достопимечательностям:
+                <input type="checkbox" name="place_to_attractions" {% if user_preferences.place_to_attractions %}checked{% endif %}>
+            </label><br>
+        </p>
+
+        <p>
+        <label>🔷 Рейтинг санатория:
+            <input type="range" name="rating" min="1" max="5" value="{{ user_preferences.rating }}" id="ratingRange" oninput="updateRating(this.value)">
+            (<span id="ratingValue">{{ user_preferences.rating }}+</span>)
+        </label><br>
+
+        <script>
+            // скрипт для отображения рейтинга в виде(x+)
+            function updateRating(value) {
+                document.getElementById("ratingValue").textContent = value + "+";
+            }
+        </script>
+
+        </p>
+
+        <h1>Лечение</h1>
+        <hr>
+        <br>
+        <br>
+
+        <div>
+            <p>
+            <span>Лечебная база (специализация, оборудование)</span><br></p>
+            <p style="padding-left: 30px; margin-top: -10px">
+
+                <label><input type="checkbox" name="treatment_base[]" value="Кардиология" id="cardiology" {% if 'Кардиология' in user_preferences.treatmentbase %}checked{% endif %}> кардиология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Неврология" id="neurology" {% if 'Неврология' in user_preferences.treatmentbase %}checked{% endif %}> неврология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Ортопедия" id="orthopedics" {% if 'Ортопедия' in user_preferences.treatmentbase %}checked{% endif %}> ортопедия</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Гастроэнтерология" id="gastroenterology" {% if 'Гастроэнтерология' in user_preferences.treatmentbase %}checked{% endif %}> гастроэнтерология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Пульмонология" id="respiratory" {% if 'Пульмонология' in user_preferences.treatmentbase %}checked{% endif %}> Лечение заболеваний дыхательной системы</label><br>
+                
+                <label><input type="checkbox" name="treatment_base[]" value="Эндокринология" id="endocrinology" {% if 'Эндокринология' in user_preferences.treatmentbase %}checked{% endif %}> эндокринология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Дерматология" id="dermatology" {% if 'дДерматология' in user_preferences.treatmentbase %}checked{% endif %}> дерматология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Урология" id="urology" {% if 'Урология' in user_preferences.treatmentbase %}checked{% endif %}> урология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Гинекология" id="gynecology" {% if 'Гинекология' in user_preferences.treatmentbase %}checked{% endif %}> гинекология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Офтальмология" id="ophthalmology" {% if 'Офтальмология' in user_preferences.treatmentbase %}checked{% endif %}> офтальмология</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Педиатрия" id="pediatrics" {% if 'Педиатрия' in user_preferences.treatmentbase %}checked{% endif %}> педиатрия</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Психотерапия" id="psychotherapy" {% if 'Психотерапия' in user_preferences.treatmentbase %}checked{% endif %}> психотерапия</label><br>
+                <label><input type="checkbox" name="treatment_base[]" value="Реабилитация после COVID-19" id="covid-rehab" {% if 'Реабилитация после COVID-19' in user_preferences.treatmentbase %}checked{% endif %}> реабилитация после COVID-19</label><br>
+                            
+            </p>
+        </div>
+        <br>
+        <div style="text-align: center;  padding: 20px;">
+                <button type="submit" name="do_change" class="forms-but">Применить</button>
+        </div>
+    </form>
+
+<br>
+<br>
+    <a href="{{ url_for('user.logout') }}" style="font-size: 21px; margin-left: 150px;">Выйти из аккаунта</a>
+{% endif %}
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

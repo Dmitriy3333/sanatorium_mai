@@ -1,0 +1,266 @@
+<!--страницы создания/редактирования санатория-->
+{% extends 'base.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style/forms.css') }}">
+{% endblock %}
+
+
+{% block title %}
+Добавление санатория
+{% endblock %}
+{% block body %}
+<h1>{% if sanatorium.id %}Редактирование  {{sanatorium.name}}{% else %}Добавление санатория {% endif %} </h1>
+
+<form action="{{ url_for('sanatoriums.create', id=sanatorium.id) if sanatorium.id else url_for('sanatoriums.create') }}" method="post"  enctype="multipart/form-data"><br>
+
+
+<h2>Основная информация</h2>
+<hr>
+    <!-- Название и описание -->
+    <label for="name" class="label-group">Название санатория:</label><br>
+    <input type="text" name="name" value="{{ sanatorium.name or '' }}" required><br><br>
+
+    <label for="description" class="label-group">Описание санатория:</label><br>
+    <textarea id="description" name="description" rows="3">{{ sanatorium.description or '' }}</textarea><br><br>
+
+
+<h2>Контактные данные</h2>
+<hr>
+    <!-- Контактные данные -->
+    <label for="phone" class="label-group">Телефон:</label><br>
+    <input type="text" id="phone" name="phone" value="{{ sanatorium.phone or '' }}"><br><br>
+
+    <label for="email" class="label-group">Email:</label><br>
+    <input type="email" id="email" name="email" value="{{ sanatorium.email or '' }}"><br><br>
+
+    <label for="website" class="label-group">Веб-сайт:</label><br>
+    <input type="url" id="website" name="website" value="{{ sanatorium.website or '' }}"><br><br>
+
+<h2>Расценки</h2>
+<hr>
+    <!-- Цены -->
+    <label for="price_per_night" class="label-group">Стоимость за сутки (₽):</label><br>
+    <input type="text"  id="price_per_night" name="price_per_night" value="{{ sanatorium.price_per_night or '' }}" required><br><br>
+
+    <label for="price_per_service" class="label-group">Средняя стоимость услуг (₽):</label><br>
+    <input type="text"  id="price_per_service" name="price_per_service" value="{{ sanatorium.price_per_service or '' }}"><br><br>
+
+
+<h2>Расположение</h2>
+<hr>
+    <!-- Местоположение -->
+    <label for="country"  class="label-group">Страна:</label><br>
+    <select name="country" id="country" required data-selected="{{ sanatorium.country }}"></select><br><br>
+
+    <label for="region"  class="label-group">Регион:</label><br>
+    <select name="region" id="region" required data-selected="{{ sanatorium.region }}"></select><br><br>
+
+    <label for="resort"  class="label-group">Курорт/город:</label><br>
+    <select name="resort" id="resort" required data-selected="{{ sanatorium.resort }}"></select><br><br>
+
+
+    <label for="place_to_attractions"  class="label-group">Близость к достопримечательностям (в минутах):</label>
+    <input type="number" id="place_to_attractions" name="place_to_attractions" value="{{ sanatorium.place_to_attractions or '' }}" required><br><br>
+
+<!-- Специализация -->
+<div>
+    <br>
+    <h2>Специализация</h2>
+    <hr><br>
+     <span  class="label-group">Навправления</span><br> <br>
+    <p style="padding-left: 30px; margin-top: -10px">
+        <label><input type="checkbox" name="specialization[]" value="Кардиология" id="cardio" {% if sanatorium.specialization and "Кардиология" in sanatorium.specialization %}checked{% endif %}> Кардиология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Неврология" id="neuro" {% if sanatorium.specialization and "Неврология" in sanatorium.specialization %}checked{% endif %}> Неврология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Ортопедия" id="ortho" {% if sanatorium.specialization and "Ортопедия" in sanatorium.specialization %}checked{% endif %}> Ортопедия</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Гастроэнтерология" id="gastro" {% if sanatorium.specialization and "Гастроэнтерология" in sanatorium.specialization %}checked{% endif %}> Гастроэнтерология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Пульмонология" id="pulmo" {% if sanatorium.specialization and "Пульмонология" in sanatorium.specialization %}checked{% endif %}> Пульмонология</label><br>
+
+        <label><input type="checkbox" name="specialization[]" value="Эндокринология" id="endocrinology" {% if sanatorium.specialization and "Эндокринология" in sanatorium.specialization %}checked{% endif %}> Эндокринология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Дерматология" id="dermatology" {% if sanatorium.specialization and "Дерматология" in sanatorium.specialization %}checked{% endif %}> Дерматология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Урология" id="urology" {% if sanatorium.specialization and "Урология" in sanatorium.specialization %}checked{% endif %}> Урология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Гинекология" id="gynecology" {% if sanatorium.specialization and "Гинекология" in sanatorium.specialization %}checked{% endif %}> Гинекология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Офтальмология" id="ophthalmology" {% if sanatorium.specialization and "Офтальмология" in sanatorium.specialization %}checked{% endif %}> Офтальмология</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Педиатрия" id="pediatrics" {% if sanatorium.specialization and "Педиатрия" in sanatorium.specialization %}checked{% endif %}> Педиатрия</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Психотерапия" id="psychotherapy" {% if sanatorium.specialization and "Психотерапия" in sanatorium.specialization %}checked{% endif %}> Психотерапия</label><br>
+        <label><input type="checkbox" name="specialization[]" value="Реабилитация после COVID-19" id="covid-rehab" {% if sanatorium.specialization and "Реабилитация после COVID-19" in sanatorium.specialization %}checked{% endif %}> Реабилитация после COVID-19</label><br>
+
+    </p>
+</div>
+
+
+<!-- Лечебная база: оборудование -->
+<div>
+    <span  class="label-group">Оборудование</span><br><br>
+    <p style="padding-left: 30px; margin-top: -10px">
+        <label><input type="checkbox" name="equipment[]" value="Физиотерапевтические аппараты" {% if sanatorium.equipment and "Физиотерапевтические аппараты" in sanatorium.equipment %}checked{% endif %}> Физиотерапевтические аппараты</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Гидротерапевтические ванны" {% if sanatorium.equipment and "Гидротерапевтические ванны" in sanatorium.equipment %}checked{% endif %}> Гидротерапевтические ванны</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Лечебные ингаляторы" {% if sanatorium.equipment and "Лечебные ингаляторы" in sanatorium.equipment %}checked{% endif %}> Лечебные ингаляторы</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Диагностическое оборудование" {% if sanatorium.equipment and "Диагностическое оборудование" in sanatorium.equipment %}checked{% endif %}> Диагностическое оборудование</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Криокамеры" {% if sanatorium.equipment and "Криокамеры" in sanatorium.equipment %}checked{% endif %}> Криокамеры</label><br>
+    
+        <label><input type="checkbox" name="equipment[]" value="Массажное оборудование" {% if sanatorium.equipment and "Массажное оборудование" in sanatorium.equipment %}checked{% endif %}> Массажное оборудование (гидромассаж, вибромассаж, роликовые системы)</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Кардиотренажеры" {% if sanatorium.equipment and "Кардиотренажеры" in sanatorium.equipment %}checked{% endif %}> Кардиотренажеры (для лечебной физкультуры)</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Термокамеры" {% if sanatorium.equipment and "Термокамеры" in sanatorium.equipment %}checked{% endif %}> Термокамеры (инфракрасные сауны)</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Подводный душ-массаж" {% if sanatorium.equipment and "Подводный душ-массаж" in sanatorium.equipment %}checked{% endif %}> Установки подводного душа-массажа</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Ароматерапевтическое оборудование" {% if sanatorium.equipment and "Ароматерапевтическое оборудование" in sanatorium.equipment %}checked{% endif %}> Ароматерапевтическое оборудование</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Светолечебные аппараты" {% if sanatorium.equipment and "Светолечебные аппараты" in sanatorium.equipment %}checked{% endif %}> Светолечебные аппараты (Биоптрон, Дюна-Т)</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Электрофорез" {% if sanatorium.equipment and "Электрофорез" in sanatorium.equipment %}checked{% endif %}> Аппараты для электрофореза</label><br>
+        <label><input type="checkbox" name="equipment[]" value="Иглорефлексотерапия" {% if sanatorium.equipment and "Иглорефлексотерапия" in sanatorium.equipment %}checked{% endif %}> Оборудование для иглорефлексотерапии</label>
+    </p>
+</div>
+
+<h2>Номера</h2>
+<hr><br>
+    <!-- Условия проживания -->
+<div>
+    <span  class="label-group">Типы номеров</span><br><br>
+    <p style="padding-left: 30px; margin-top: -10px">
+        <label><input type="checkbox" name="room_types[]" value="Стандартный одноместный" id="single_standard" {% if sanatorium.room_types and "Стандартный одноместный" in sanatorium.room_types %}checked{% endif %}> Стандартный одноместный</label><br>
+        <label><input type="checkbox" name="room_types[]" value="Стандартный двухместный" id="double_standard" {% if sanatorium.room_types and "Стандартный двухместный" in sanatorium.room_types %}checked{% endif %}> Стандартный двухместный</label><br>
+        <label><input type="checkbox" name="room_types[]" value="Люкс" id="luxury" {% if sanatorium.room_types and "Люкс" in sanatorium.room_types %}checked{% endif %}> Люкс</label><br>
+        <label><input type="checkbox" name="room_types[]" value="Апартаменты" id="apartments" {% if sanatorium.room_types and "Апартаменты" in sanatorium.room_types %}checked{% endif %}> Апартаменты</label><br>
+        <label><input type="checkbox" name="room_types[]" value="Семейный номер" id="family" {% if sanatorium.room_types and "Семейный номер" in sanatorium.room_types %}checked{% endif %}> Семейный номер</label><br>
+    </p>
+</div>
+
+    <!-- Удобства в номере -->
+<div>
+    <span  class="label-group">Удобства в номере</span><br><br>
+    <p style="padding-left: 30px; margin-top: -10px">
+        <label><input type="checkbox" name="amenities[]" value="Wi-Fi" id="wifi" {% if sanatorium.amenities and "Wi-Fi" in sanatorium.amenities %}checked{% endif %}> Wi-Fi</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Телевизор" id="tv" {% if sanatorium.amenities and "Телевизор" in sanatorium.amenities %}checked{% endif %}> Телевизор</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Кондиционер" id="ac" {% if sanatorium.amenities and "Кондиционер" in sanatorium.amenities %}checked{% endif %}> Кондиционер</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Мини-бар" id="minibar" {% if sanatorium.amenities and "Мини-бар" in sanatorium.amenities %}checked{% endif %}> Мини-бар</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Сейф" id="safe" {% if sanatorium.amenities and "Сейф" in sanatorium.amenities %}checked{% endif %}> Сейф</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Балкон" id="balcony" {% if sanatorium.amenities and "Балкон" in sanatorium.amenities %}checked{% endif %}> Балкон</label><br>
+    </p>
+</div>
+
+
+<h2>Питание</h2>
+<hr>
+    <!-- Питание -->
+<div>
+    <p><label for="food_type"  class="label-group">Тип питания</label></p>
+    <select id="food_type" name="food_type">
+        <option value="Шведский стол" {% if sanatorium.food_type == 'Шведский стол' %}selected{% endif %}>Шведский стол</option>
+        <option value="Диетическое" {% if sanatorium.food_type == 'Диетическое' %}selected{% endif %}>Диетическое</option>
+        <option value="Ресторанное меню" {% if sanatorium.food_type == 'Ресторанное меню' %}selected{% endif %}>Ресторанное меню</option>
+    </select>
+</div>
+
+<br>
+<div>
+    <label for="food_quality"  class="label-group">Качество питания (1-10)</label>
+    <input type="number" id="food_quality" name="food_quality" min="1" max="10"
+           value="{% if sanatorium.food_quality %}{{ sanatorium.food_quality }}{% endif %}">
+</div>
+
+<!-- Дополнительные услуги -->
+<div>
+    <br><br>
+    <h2>Другое</h2>
+    <hr><br>
+    <span  class="label-group">Дополнительные услуги</span><br><br>
+    <p style="padding-left: 30px; margin-top: -10px">
+        <label><input type="checkbox" id="has_pool" name="has_pool" {% if sanatorium.has_pool %}checked{% endif %}> Есть бассейн</label><br>
+        <label><input type="checkbox" id="has_spa" name="has_spa" {% if sanatorium.has_spa %}checked{% endif %}> Есть спа</label><br>
+        <label><input type="checkbox" id="has_entertainment" name="has_entertainment" {% if sanatorium.has_entertainment %}checked{% endif %}> Развлекательные мероприятия</label><br>
+    </p>
+</div>
+
+<!-- Отзывы и рейтинг -->
+<div>
+    <label for="average_review_score"  class="label-group">Средняя оценка по отзывам (1-10)</label>
+    <input type="number" id="average_review_score" name="average_review_score" min="1" max="10" value="{% if sanatorium.average_review_score %}{{ sanatorium.average_review_score }}{% endif %}">
+</div>
+
+    <br>
+    <h2>Загрузка фото</h2>
+    <hr>
+    <br>
+<label class="input-file">
+    <input type="file" name="photos" multiple accept="image/*" onchange="loadFile(event)" id="photo-sanat">
+    <span class="input-file-btn">Выберать фалы (до 10)</span>
+    </label>
+    <br><br>
+    <div style="border: 1px solid grey; border-radius: 10px; padding-left: 10px">
+    <p>Добавляемые фото: </p>
+<div id="preview"></div> <!--предпоказ загружаемых фото-->
+</div>
+
+<script>
+    // скрипт для предпоказа загрузки фото
+    function loadFile(event) {
+        const files = event.target.files;
+        console.log(files);
+
+        if (files.length > 10) {
+            alert('Максимум 10 фото');
+            event.target.value = ''; // Сбрасываем выбор файлов
+            return;
+        }
+
+        const previewContainer = document.getElementById('preview');
+        previewContainer.innerHTML = ''; // очищаем старые превью
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            // Проверяем, что файл является изображением
+            if (!file.type.match('image.*')) {
+                continue;
+            }
+
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.classList.add('preview-image');
+            img.style.maxWidth = '150px';
+            img.style.maxHeight = '150px';
+            img.style.margin = '10px';
+            img.style.objectFit = 'cover';
+
+            img.onload = function() {
+                URL.revokeObjectURL(this.src); // освобождаем память
+            };
+
+            previewContainer.appendChild(img);
+        }
+    }
+
+    // Назначаем обработчик после загрузки DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('photo-sanat');
+        if (fileInput) {
+            fileInput.addEventListener('change', loadFile);
+        }
+    });
+</script>
+
+    <br>
+    <br>
+    {% if sanatorium.photos %}
+        <div class="img-wrap">
+        <p>Удалить фото:</p> <!--предпоказ удаляемых фото-->
+    {% for photo in sanatorium.photos %}
+
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename=photo.file_path) }}"
+                 alt="Фото санатория {{ sanatorium.name }}"
+                 class="sanatorium-photo">
+                <input type="checkbox" name="delete_photos" class="delete-photos" value="{{ photo.id }}">
+        </div>
+
+    {% endfor %}
+    </div>
+
+    {% endif %}
+
+    <br>
+    <div style="text-align: center;  padding: 20px;">
+        <button type="submit"  class="forms-but">{% if sanatorium.id %}Сохранить{% else %}Создать санаторий{% endif %}</button>
+    </div>
+    </form>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

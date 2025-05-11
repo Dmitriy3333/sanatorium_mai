@@ -1,0 +1,456 @@
+html, body {
+    /*background-color: #3A7734;*/
+    margin: 0px;
+    padding: 0px;
+}
+
+.main h1 {
+    font-family: "Roboto", sans-serif;
+    color:rgb(7, 5, 86);
+
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.main hr {
+    border-color:rgb(5, 4, 58);
+    margin-top: 15px;
+}
+
+header {
+    z-index: 100;
+    height: 80px;
+    /* display: flex; */
+    width: 100%;
+    background-color: rgba(162, 179, 228, 0.78); /*rgba(83, 160, 242, 0.628);*/
+
+    flex-direction: row;
+    justify-content: end;
+    position: fixed;
+    /* text-align: end; */
+}
+
+header a{
+    color:rgb(11, 4, 104);
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    font-size: 25px;
+    font-weight: 200;
+    display: inline-block;
+    margin-left: 40px;
+    margin-top: 25px;
+}
+.profile {
+    display: inline-block;
+    /* border: 1px solid red; */
+    width: 70px;
+    margin-top: 5px;
+    position: absolute;
+    right: 60px;
+    background-image: url("../images/profile.png");
+    background-size: cover;
+    height: 70px;
+}
+
+.redactor {
+    display: inline-block;
+    /* border: 1px solid red; */
+    width: 60px;
+    margin-top: 10px;
+    position: absolute;
+    right: 60px;
+    margin-right: 100px;
+    background-image: url("../images/redactor.png");
+    background-size: cover;
+    height: 60px;
+}
+
+.main {
+    /* padding-top: 100px; */
+    /*background-color: rgba(83, 160, 242, 0);*/
+    width: 80%;
+    margin-left: 10%;
+    height: auto;
+    padding: 80px;
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-top: 100px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+
+}
+
+.sanatoriy {
+    font-family: "Roboto", sans-serif;
+    font-weight: 200;
+    cursor: pointer;
+    background-color: #DDE3F5; /*rgba(50, 116, 198, 0.147);*/
+    display: flex;
+    width: 96%;
+    margin: 20px 0px;
+    border-radius: 5px;
+    height: auto;
+    margin-left: 2%;
+    flex-direction: row;
+}
+
+.sanatoriy .photo {
+
+    background-color: rgba(28, 29, 48, 0.044);
+
+    width: 25%;
+    height: auto;
+    /*padding: 10px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sanatoriy .photo img {
+    width: 100%;
+    object-fit: cover;
+    /*height: 100%;*/
+    max-height: 220px;
+}
+
+.main-sanatoriy {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    padding-left: 40px;
+
+}
+
+.main-sanatoriy-top{
+    flex-direction: row;
+    display: flex
+;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.main-sanatoriy-top h1.name {
+    font-family: "Roboto", sans-serif;
+    font-weight: 200;
+    color: darkblue;
+    display: inline-block;
+    /*width: 30%;*/
+    font-size: 25px;
+    text-align: left;
+    flex-grow: 10;
+    margin: 10px 0;
+}
+.main-sanatoriy-top .mini-redactor {
+    width: 30px;
+    margin-top: 15px;
+    margin-left: 40px;
+    height: 30px;
+    background-image: url("../images/redactor.png");
+    background-size: cover;
+}
+
+.main-sanatoriy-top .mini-detele {
+    margin-top: 15px;
+}
+
+.sanatoriy p.info {
+    font-size: 0.8em; /* Мелкий шрифт */
+    color: rgba(47, 47, 47, 0.7);
+    margin: 5px 0;
+    line-height: 10px;
+}
+
+.get-contact {
+    display: flex;
+    font-family: "Roboto", sans-serif;
+    justify-content: flex-start;
+    margin-top: 10px;
+    text-align: center; /* Центрируем контактные данные */
+    font-size: 1em; /* Мелкий шрифт */
+}
+
+.get-contact span {
+    display: block;
+    margin: 3px 20px;
+}
+
+.sanatoriy .cost {
+    font-size: 1.2em;
+    color: rgb(9, 9, 121);
+    margin-top: auto; /* Для того чтобы цена была справа внизу */
+    text-align: right;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    flex-grow: 10;
+}
+
+
+
+.main-sanatoriy-top .mini-redactor {
+    width: 30px;
+    margin-top: 15px;
+    margin-left: 40px;
+    height: 30px;
+    background-image: url("../images/redactor.png");
+    background-size: cover;
+}
+
+.main-sanatoriy-top .mini-detele {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.main-sanatorium-right{
+    float: right;
+    width: 40%;
+    min-width: 400px;
+        margin-top: 40px;
+    border: 1px solid black;
+}
+
+.main-sanatorium-right img{
+
+    width: 100%;
+    /*min-height: 300px;*/
+
+    border: 1px solid red;
+}
+
+.sanatorium-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    font-family: sans-serif;
+}
+
+.sanatorium-title {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.sanatorium-content {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.sanatorium-sidebar {
+    flex: 1;
+    flex-grow: 2;
+    min-width: 300px;
+    /*height: auto;*/
+    max-width: 800px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: #fafafa;
+    border-radius: 10px;
+}
+
+.sanatorium-sidebar img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    /*border-radius: 8px;*/
+    /*margin-bottom: 15px;*/
+    /*border: 1px solid #ddd;*/
+}
+
+.sidebar-info {
+    height: calc(100% - 360px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.sidebar-info p {
+    margin: 8px 0;
+    line-height: 10px;
+}
+
+.sanatorium-main {
+    flex: 2;
+    min-width: 300px;
+}
+
+.description {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.sanatorium-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px 2px;
+    margin-bottom: 20px;
+}
+
+.features p {
+    display: inline-block;
+    margin-right: 15px;
+    font-weight: bold;
+    color: #1e88e5;
+}
+
+
+.photo {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    overflow: hidden;
+    /*border-radius: 10px;*/
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+}
+
+.photo-main-sanatory {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+    /*border-radius: 10px;*/
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+}
+.img-wrap {
+    display: flex;
+    transition: transform 0.5s ease;
+    object-fit: cover;
+}
+
+.img-wrap img {
+    width: 100%;
+    /*height: auto;*/
+    max-height: 360px;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+.btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.26);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0px;
+}
+
+.btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+    left: 0px;
+}
+
+.next {
+    right: 0px;
+}
+
+
+
+.sanatorium-description {
+  margin-top: 2rem;
+}
+
+.description-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.description-text {
+  white-space: pre-line;   /* сохраняем переносы строк */
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+  background-color: #fafafa;
+  border-left: 4px solid #5a9bd5;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.warning-main {
+    display: block;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 5px 30px;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 100;
+    background-color: rgba(237, 218, 154, 0.33);
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.filter-group label,
+.filter-group span {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+    user-select: none;
+}
+
+.filter-group select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+.filter-group.services {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    min-width: auto;
+}
+
+.filter-group.services span {
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.filter-group.services label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+}
+
+.filter-group.services input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+

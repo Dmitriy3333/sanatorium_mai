@@ -1,0 +1,49 @@
+<!--страница авторизации-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/registration.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<header>
+    <a href="{{ url_for('main.index') }}">Главная</a>
+    <a href="{{ url_for('sanatoriums.create') }}" class="redactor"></a>
+    <a href="{{ url_for('user.signup') }}" class="profile"></a>
+
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="error-registration alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="registration">
+    <a href="{{ url_for('user.signup') }}">Регистрация</a>
+    <a href="#" style="border-bottom: 3px solid rgb(55, 55, 89);">Автооризация</a>
+    <form action="{{ url_for('user.login') }}" method="POST">
+        <br><br><br>
+        <br>
+        <p>
+            <span>Логин:</span><br>
+            <input type="text" name="login" value="{{ login|default('') }}">
+        </p>
+        <p>
+            <span>Пароль:</span><br>
+            <input type="password" name="password" value="">
+        </p>
+        <br><br><br>
+        <button type="submit" name="do_login">Войти</button>
+    </form>
+</div>
+</body>
+</html>

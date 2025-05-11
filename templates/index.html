@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Главная
+{% endblock %}
+
+{% block body %}
+{% if user %}
+    {% if not has_prefs %}
+    <div class="warning-main">
+        <p>Чтобы получить персональные рекомендации по санаториям, пожалуйста, <a href="{{ url_for('user.profile') }}">заполните свой профиль</a>.</p>
+    </div>
+    {% endif %}
+{% else %}
+    <div class="warning-main">
+        <p><a href="{{ url_for('user.login') }}">Войдите</a> или <a href="{{ url_for('user.signup') }}">зарегистрируйтесь</a>, чтобы получить рекомендации по выбору санатория.</p>
+    </div>
+{% endif %}
+
+<h1>Все санатории</h1>
+<hr><br>
+
+<!-- Фильтры -->
+<div class="filter-options">
+    <div class="filter-group">
+        <label for="priceSort">Сортировать по цене:</label>
+        <select id="priceSort">
+            <option value="none">Без сортировки</option>
+            <option value="asc">По возрастанию</option>
+            <option value="desc">По убыванию</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="regionFilter">Регион:</label>
+        <select id="regionFilter">
+            <option value="">Все</option>
+            {% for sanatorium in sanatoriums|unique(attribute='region') %}
+            <option value="{{ sanatorium.region|lower }}">{{ sanatorium.region }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="typeFilter">Тип санатория:</label>
+        <select id="typeFilter">
+            <option value="">Все</option>
+            <option value="профильный">Профильный</option>
+            <option value="многопрофильный">Многопрофильный</option>
+        </select>
+    </div>
+
+    <div class="filter-group services">
+        <span>Услуги:</span>
+        <label><input type="checkbox" class="serviceFilter" value="pool"> Бассейн</label>
+        <label><input type="checkbox" class="serviceFilter" value="spa"> Спа</label>
+        <label><input type="checkbox" class="serviceFilter" value="entertainment"> Развлечения</label>
+    </div>
+</div>
+
+
+<!-- Список санаториев -->
+<div id="sanatoriumList">
+    {% for sanatorium in sanatoriums %}
+    <div class="sanatoriy"
+         data-price="{{ sanatorium.price_per_night }}"
+         data-region="{{ sanatorium.region|lower }}"
+         data-type="{% if sanatorium.specialization and sanatorium.specialization.split(',')|length > 1 %}многопрофильный{% else %}профильный{% endif %}"
+         data-has-pool="{{ sanatorium.has_pool|lower }}"
+         data-has-spa="{{ sanatorium.has_spa|lower }}"
+         data-has-entertainment="{{ sanatorium.has_entertainment|lower }}"
+         onclick="window.location='{{ url_for('sanatoriums.sanatorium', id=sanatorium.id) }}'">
+        <!-- Остальное содержимое карточки санатория -->
+        <div class="photo">
+            <div class="sanatorium-content">
+                {% if sanatorium.photos %}
+                <div class="img-wrap">
+                    {% for photo in sanatorium.photos %}
+                    <img src="{{ url_for('static', filename=photo.file_path) }}" alt="Фото {{ sanatorium.name }}" class="sanatorium-photo">
+                    {% endfor %}
+                </div>
+                <button class="btn prev">‹</button>
+                <button class="btn next">›</button>
+                {% else %}
+                <img src="{{ url_for('static', filename='images/example.jpg') }}" alt="Заглушка" class="sanatorium-photo">
+                {% endif %}
+            </div>
+        </div>
+        <div class="main-sanatoriy">
+            <div class="main-sanatoriy-top">
+                <h1 class="name">{{ sanatorium.name }}</h1>
+                {% if user and has_prefs %}
+                <span style="padding: 20px 20px 0px 0px;" title="Рейтинг расчитан на основе ваших предпочтений">Рейтинг: {{ itog[sanatorium.id] }}</span>
+                {% endif %}
+                {% if session.get('is_admin') %}
+                <a href="{{ url_for('sanatoriums.create', id=sanatorium.id) }}" class='mini-redactor'></a>
+                <form method="POST" action="{{ url_for('sanatoriums.delete', id=sanatorium.id) }}">
+                    <button type="submit" class="mini-detele" onclick="return confirm('Вы уверены, что хотите удалить этот санаторий?')">Удалить</button>
+                </form>
+                {% endif %}
+            </div>
+            <p class="info">Страна: {{ sanatorium.country }}</p>
+            <p class="info">Питание: {{ sanatorium.food_type }}</p>
+            <p class="info">Удобства: {{ sanatorium.amenities or '—' }}</p>
+            <p class="info">Рейтинг: {{ sanatorium.average_review_score }}/10</p>
+            <div class="get-contact">
+                <span class="phone">+7 {{ sanatorium.phone }}</span>
+                <span class="email">{{ sanatorium.email }}</span>
+                <span class="cost">{{ sanatorium.price_per_night }} ₽</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Скрипты -->
+<script>
+    // Слайдер
+    document.querySelectorAll('.photo').forEach(carousel => {
+        const imgWrap = carousel.querySelector('.img-wrap');
+        const imgs = imgWrap ? carousel.querySelectorAll('.img-wrap img') : [];
+        const prevBtn = carousel.querySelector('.prev');
+        const nextBtn = carousel.querySelector('.next');
+        let idx = 0;
+
+        function showImg() {
+            if (!imgWrap || imgs.length === 0) return;
+            if (idx >= imgs.length) idx = 0;
+            if (idx < 0) idx = imgs.length - 1;
+            imgWrap.style.transform = `translateX(-${idx * 100}%)`;
+        }
+
+        if (nextBtn) nextBtn.addEventListener('click', e => { e.stopPropagation(); idx++; showImg(); });
+        if (prevBtn) prevBtn.addEventListener('click', e => { e.stopPropagation(); idx--; showImg(); });
+
+        showImg();
+    });
+
+    // Сортировка по цене
+    document.getElementById('priceSort').addEventListener('change', function () {
+        const sortOrder = this.value;
+        const container = document.getElementById('sanatoriumList');
+        const sanatoriums = Array.from(container.querySelectorAll('.sanatoriy'));
+
+        if (sortOrder === 'none') {
+            window.location.reload();
+            return;
+        }
+
+        sanatoriums.sort((a, b) => {
+            const priceA = parseFloat(a.getAttribute('data-price'));
+            const priceB = parseFloat(b.getAttribute('data-price'));
+            return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+        });
+
+        container.innerHTML = '';
+        sanatoriums.forEach(s => container.appendChild(s));
+    });
+
+    // Фильтрация
+    function applyFilters() {
+        const region = document.getElementById('regionFilter').value.toLowerCase();
+        const type = document.getElementById('typeFilter').value.toLowerCase();
+
+        const poolChecked = document.querySelector('.serviceFilter[value="pool"]').checked;
+        const spaChecked = document.querySelector('.serviceFilter[value="spa"]').checked;
+        const entertainmentChecked = document.querySelector('.serviceFilter[value="entertainment"]').checked;
+
+        document.querySelectorAll('.sanatoriy').forEach(s => {
+            const sRegion = s.getAttribute('data-region');
+            const sType = s.getAttribute('data-type').toLowerCase();
+
+ 
+            const hasPool = s.getAttribute('data-has-pool') === 'true';
+            const hasSpa = s.getAttribute('data-has-spa') === 'true';
+            const hasEntertainment = s.getAttribute('data-has-entertainment') === 'true';
+
+            const regionMatch = !region || sRegion === region;
+            const typeMatch = !type || sType === type;
+            const poolMatch = !poolChecked || hasPool;
+            const spaMatch = !spaChecked || hasSpa;
+            const entertainmentMatch = !entertainmentChecked || hasEntertainment;
+
+            s.style.display = regionMatch && typeMatch && poolMatch && spaMatch && entertainmentMatch ? 'flex' : 'none';
+        });
+    }
+
+    // Навешиваем обработчики событий на все фильтры
+    document.getElementById('regionFilter').addEventListener('change', applyFilters);
+    document.getElementById('typeFilter').addEventListener('change', applyFilters);
+    document.querySelectorAll('.serviceFilter').forEach(cb => {
+        cb.addEventListener('change', applyFilters);
+    });
+</script>
+{% endblock %}

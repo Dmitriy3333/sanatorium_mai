@@ -1,0 +1,29 @@
+<!--базовый шаблон - основа других страниц-->
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+    {% block styles %}
+
+    {% endblock %}
+
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('main.index') }}">Главная</a>
+         {% if session.get('is_admin') %}
+        <a href="{{ url_for('sanatoriums.create') }}" class="redactor"></a>
+        {% endif %}
+        <a href="{{ url_for('user.profile') }}" class="profile"></a>
+    </header>
+    <div class="main">
+    {% block body %} {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+html, body {
+    /*background-color: #3A7734;*/
+    margin: 0px;
+    padding: 0px;
+}
+
+header {
+    height: 80px;
+    /* display: flex; */
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.14);
+    flex-direction: row;
+    justify-content: end;
+    /*position: fixed;*/
+    /* text-align: end; */
+}
+
+header a{
+    color: rgb(7, 2, 2);
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    font-size: 25px;
+    font-weight: 300;
+    display: inline-block;
+    margin-left: 40px;
+    margin-top: 25px;
+}
+
+.registration-main {
+    box-sizing: border-box;
+    background-color: rgba(128, 128, 128, 0.547);
+    width: 36%;
+    height: 350px;
+    text-align: center;
+    /* padding-top: 110px ; */
+    margin-left: 32%;
+    border-radius: 20px;
+    /*margin-top: 22vh;*/
+}
+.registration a {
+    padding-top: 20px;
+}
+.registration a {
+    display: inline-block;
+    border: 0px solid red;
+    /* border-radius: 10px; */
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    padding: 5px 30px;
+    margin: 10px;
+    margin-bottom: 30px;
+    font-size: 23px;
+    text-decoration: none;
+    color: black;
+    background-color: none;
+    border-bottom: 3px solid rgb(173, 173, 173);
+}
+
+.registration {
+    box-sizing: border-box;
+    background-color: rgba(128, 128, 128, 0.218);
+    width: 36%;
+    height: 450px;
+    text-align: center;
+    padding-top: 10px ;
+    margin-left: 32%;
+    border-radius: 20px;
+    margin-top: 16vh;
+}
+
+.registration form p {
+    display: flex;
+    /* background-color: yellow !important; */
+    font-size: 21px;
+    flex-direction: row;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+}
+
+.registration form span {
+    text-align: left;
+    margin-left: 15%;
+    display: inline-block;
+    width: 39%;
+}
+
+.registration form input {
+
+    width: 30%;
+}
+
+.registration button {
+    border: 1px solid black;
+    padding: 5px 30px;
+    font-weight: 300;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 17px;
+    font-family: "Roboto", sans-serif;
+    cursor: pointer;
+}
+
+.error-registration {
+    color: rgb(183, 49, 49);
+    font-size: 23px;
+    padding: 10px;
+    font-family: "Roboto", sans-serif;
+    width: 90%;
+    margin-left: 5%;
+    top: 90px;
+    position: fixed;
+    border-bottom: 2px solid rgb(183, 49, 49);
+    text-align: center;
+}
+
+
+.no-error-registration {
+    color: rgb(28, 103, 10);
+    font-size: 23px;
+    padding: 10px;
+    font-family: "Roboto", sans-serif;
+    width: 90%;
+    margin-left: 5%;
+    top: 0px;
+    position: fixed;
+    border-bottom: 2px solid rgb(28, 103, 10);
+    text-align: center;
+}
+
+
