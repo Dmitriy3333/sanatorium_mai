@@ -454,3 +454,43 @@ header a{
     cursor: pointer;
 }
 
+
+@media (max-width: 768px) {
+    .main {
+        width: 100%;
+        margin-left: 0%;
+        padding: 10px;
+        padding-top: 100px;
+    }
+
+    .sanatoriy .photo {
+        display: none !important;
+    }
+
+    .main-sanatoriy { 
+        padding: 5px !important;
+    }
+
+    .main-sanatoriy {
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        padding-left: 40px !important;
+    }
+
+    .get-contact {
+        flex-wrap: wrap;
+    }
+    .sanatoriy .cost {
+        text-align: center !important;
+    }
+    .filter-group.services {
+        gap: 9px;
+    }
+
+    .sidebar-info {
+        margin-top: 100px;
+    }
+}
+
