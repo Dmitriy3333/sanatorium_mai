@@ -294,3 +294,31 @@ form {
     line-height: 60px;
     margin-top: 5px;
 }
+
+
+@media (max-width: 768px) {
+    .main{
+        width: 100%;
+        margin-left: 0px;
+        padding: 10px;
+        padding-top: 90px;
+    }
+
+    select {
+        width: auto;
+    }
+
+    .main button {
+        margin: 0px;
+        width: auto
+    }
+
+    form {
+        width: 100%;
+        margin-left: 0px;
+    }
+
+    textarea {
+        width: 85%;
+    }
+}
